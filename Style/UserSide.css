@@ -427,6 +427,16 @@ footer a {
 .register-container button:hover {
     background-color: #e61c00;
 }
+.fullname-field {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1rem;
+}
+.name-field {
+    display: flex;
+    flex-direction: column;
+}
 @media screen and (max-width: 600px) {
     .register-container {
         min-width: 90%;
