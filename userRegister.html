@@ -20,8 +20,21 @@
             <p>Create your account!</p>
             <p>Please fill in the details below to register.</p>
             <form action="userDashboard.html" method="post">
-                <label for="fullname">Full Name:</label>
-                <input type="text" id="fullname" name="fullname" required>
+                <div class="fullname-field">
+                    <div class="name-field">
+                        <label for="firstname">First Name:</label>
+                        <input type="text" id="firstname" name="firstname" required>
+                    </div>
+                    <div class="name-field">
+                        <label for="middlename">Middle Name:</label>
+                        <input type="text" id="middlename" name="middlename" required>
+                    </div>
+                    <div class="name-field">
+                        <label for="lastname">Last Name:</label>
+                        <input type="text" id="lastname" name="lastname" required>
+                    </div>
+                </div>
+                
 
                 <label for="birthdate">Date of Birth</label>
                 <input type="date" id="birthdate" name="birthdate" required>
