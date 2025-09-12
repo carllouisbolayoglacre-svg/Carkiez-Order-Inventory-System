@@ -49,14 +49,14 @@ handle_logout();
             <a href="userLanding.php">Home</a>
             <a href="categories.php">Categories</a>
             <a href="brands.php">Brands</a>
-            <a href="allproducts.php">All Products</a>
+            <a href="userProducts.php">All Products</a>
         </div>
     </nav>
     <!-- Collapsible mobile nav -->
     <div id="mobile-nav" class="mobile-nav">
         <a href="userLanding.php">Home</a>
         <a href="categories.php">Categories</a>
-        <a href="allproducts.php">All Products</a>
+        <a href="userProducts.php">All Products</a>
     </div>
     <script>
         // Toggle mobile nav

@@ -8,9 +8,9 @@
                 <span class="caret"></span>
             </button>
             <div class="dropdown-content">
-                <a href="addProduct.php">Add Product</a>
+                <a href="adminAddProduct.php">Add Product</a>
                 <a href="manageProducts.php">Manage Products</a>
-                <a href="addCategory.php">Add Category</a>
+                <a href="adminAddCategory.php">Add Category</a>
                 <a href="manageCategories.php">Manage Categories</a>
             </div>
         </div>
