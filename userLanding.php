@@ -1,47 +1,4 @@
-<!DOCTYPE html>
-<html>
-<head>
-<title>Landing</title>
-<link rel="stylesheet" type="text/css" href="Style/UserSide.css">
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-</head>
-<body>
-
-<header>
-    <div class="login-bar">
-        <a href="userLogin.html">Login</a>
-        <p>|</p>
-        <a href="userRegister.html">Sign Up</a>
-    </div>
-    <div class="header-container">
-        <div class="header-inside">
-            <button class="nav-button"><img src="Assets/align-justify-svgrepo-com.png" alt="nav"></button>
-            <div class="header-logo"><img src="Assets/TemporaryLogo.png" alt="Logo" class="logo"></div>
-            <div class="header-search-bar-container">
-                <div class="search-bar">
-                    <input type="text" placeholder="Search...">
-                    <button type="submit"><img src="Assets/search-svgrepo-com.png" alt="Search"></button>
-                </div>
-            </div>
-            <button class="cart-button"><img src="Assets/cart-shopping-svgrepo-com.png" alt="nav"></button>
-        </div>
-    </div>
-    <div class="responsive-search-bar-container">
-        <div class="search-bar">
-            <input type="text" placeholder="Search...">
-            <button type="submit"><img src="Assets/search-svgrepo-com.png" alt="Search"></button>
-        </div>
-    </div>
-    <nav>
-        <div class="nav-spacer">
-            <a href="userLanding.html">Home</a>
-            <a href="categories.html">Categories</a>
-            <a href="brands.html">Brands</a>
-            <a href="allproducts.html">All Products</a>
-        </div>
-    </nav>
-</header>
-
+<?php include 'Includes/userHeader.php'; ?>
 <main>
     <img src="Assets/placeholder.jpg" alt="Landing Page Image" class="landing-image">
     <div class="category-container">
@@ -120,28 +77,4 @@
         </div>
     </div>
 </main>
-<footer>
-    <div class="footer-top">
-        <img src="Assets/TemporaryLogo.png" alt="Logo" class="footer-logo">
-        <div class="footer-col">
-            <h4>Explore</h4>
-            <ul>
-                <li><a href="userLanding.html">Home</a></li>
-                 <li><a href="allproducts.html">All Products</a></li>
-                 <li><a href="userLogin.html">Login</a></li>
-                <li><a href="userRegister.html">Sign Up</a></li>
-            </ul>
-        </div>
-        <div class="footer-col">
-            <h4>Support</h4>
-            <ul>
-                <li><a href="#">Contact Us</a></li>
-                <li><a href="#">FAQs</a></li>
-                <li><a href="#">Privacy Policy</a></li>
-            </ul>
-        </div>
-    </div>
-    <p>&copy; 2025 Carkiez.</p>
-</footer>
-</body>
-</html>
+<?php include 'Includes/userFooter.php'; ?>

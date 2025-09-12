@@ -1,0 +1,67 @@
+<aside>
+    <nav>
+        <div class="nav-spacer">
+            <a href="adminDashboard.php">Dashboard</a>
+        
+        <div class="dropdown">
+            <button class="dropbtn">Products 
+                <span class="caret"></span>
+            </button>
+            <div class="dropdown-content">
+                <a href="addProduct.php">Add Product</a>
+                <a href="manageProducts.php">Manage Products</a>
+                <a href="addCategory.php">Add Category</a>
+                <a href="manageCategories.php">Manage Categories</a>
+            </div>
+        </div>
+        <div class="dropdown">
+            <button class="dropbtn">Orders 
+                <span class="caret"></span>
+            </button>
+            <div class="dropdown-content">
+                <a href="viewOrders.php">View Orders</a>
+                <a href="manageOrders.php">Manage Orders</a>
+            </div>
+        </div>
+        <div class="dropdown">
+            <button class="dropbtn">Users 
+                <span class="caret"></span>
+            </button>
+            <div class="dropdown-content">
+                <a href="viewUsers.php">View Users</a>
+                <a href="manageUsers.php">Manage Users</a>
+            </div>
+        </div>
+        <div class="dropdown">
+            <button class="dropbtn">Staff 
+                 <span class="caret"></span>
+            </button>
+            <div class="dropdown-content">
+                <a href="addStaff.php">Add Staff</a>
+                <a href="manageStaff.php">Manage Staff</a>
+            </div>
+        </div>
+        <a href="adminSettings.php">Settings</a>
+        <form method="post" style="display:inline;">
+            <button class="dropbtn" type="submit" name="logout">Logout</button>
+        </form>
+        </div>  
+    </nav>
+</aside>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const dropdowns = document.querySelectorAll('.dropdown');
+    dropdowns.forEach(function(dropdown) {
+        const btn = dropdown.querySelector('.dropbtn');
+        btn.addEventListener('click', function(e) {
+            e.preventDefault();
+            // Close other open dropdowns
+            dropdowns.forEach(function(d) {
+                if (d !== dropdown) d.classList.remove('open');
+            });
+            // Toggle current dropdown only
+            dropdown.classList.toggle('open');
+        });
+    });
+});
+</script>

@@ -125,6 +125,35 @@ nav {
     padding: 0.5rem 1rem;
     transition: background-color 0.3s, color 0.3s;
 }
+.nav-spacer a:hover {
+    background-color: grey;
+    color: white;
+    border-radius: 4px;
+}
+.mobile-nav {
+    display: none;
+    flex-direction: column;
+    background: #FAF9F6;
+    /* Remove position, top, left, z-index, and box-shadow for static placement */
+    border-top: 1px solid #ccc;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+    margin-bottom: 1rem; /* Optional: adds spacing below nav */
+}
+.mobile-nav a {
+    padding: 1rem;
+    text-decoration: none;
+    color: #333;
+    font-weight: bold;
+    border-bottom: 1px solid #eee;
+    transition: background 0.3s, color 0.3s;
+}
+.mobile-nav a:hover {
+    background: #FF1E00;
+    color: #fff;
+}
+.mobile-nav.show {
+    display: flex;
+}
 @media (max-width: 600px) {
     nav {
         display: none;
@@ -138,6 +167,12 @@ nav {
     .nav-button img {
         width: 30px;
         height: 30px;
+    }
+    .mobile-nav {
+        display: none;
+    }
+    .mobile-nav.show {
+        display: flex;
     }
 }
 /* Login Bar Styles */
@@ -156,6 +191,19 @@ nav {
     margin: 0;
     padding: 0;
     align-self: center;
+}
+.login-bar span {
+    color: white;
+    margin-right: 1rem;
+    align-self: center;
+}
+.login-bar button {
+    background: none;
+    border: none;
+    color: white;
+    cursor: pointer;
+    font-size: 1rem;
+    padding: 0 1rem;
 }
 /* Main Content Styles */
 main {
@@ -440,6 +488,14 @@ footer a {
 @media screen and (max-width: 600px) {
     .register-container {
         min-width: 90%;
-        padding: 2rem;
+        padding: 1rem;
+        box-sizing: border-box;
+    }
+    .fullname-field {
+        flex-direction: column;
+        gap: 0.5rem;
+    }
+    .name-field {
+        width: 100%;
     }
 }
