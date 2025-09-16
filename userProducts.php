@@ -5,6 +5,7 @@ include 'Includes/connection.php';
 <main>
     <div class="product-page-container">
         <div class="category-list">
+                <h2>Categories</h2>
                 <a href="userProducts.php" class="category-link">All</a>
                 <?php
                 $cat_stmt = $conn->prepare("SELECT id, category_name FROM categories ORDER BY category_name ASC");
@@ -21,21 +22,41 @@ include 'Includes/connection.php';
                 ?>
         </div>
         <div class="products-container">
-            <h2>All Products</h2>
+            <?php
+            $selected_category = $_GET['category'] ?? '';
+            if ($selected_category) {
+                echo '<h2>' . htmlspecialchars($selected_category) . '</h2>';
+            } else {
+                echo '<h2>All Products</h2>';
+            }
+            ?>
             <div class="product-grid">
                 <?php
                 include 'Includes/connection.php';
 
-                $sql = "SELECT p.product_id, p.product_name, p.price, p.quantity, p.brand, p.description, p.image_path, c.category_name 
-                        FROM products p 
-                        JOIN categories c ON p.category_id = c.id";
-                $result = $conn->query($sql);
+                $selected_category = $_GET['category'] ?? '';
+
+                if ($selected_category) {
+                    $stmt = $conn->prepare("SELECT p.product_id, p.product_name, p.price, p.quantity, p.brand, p.description, p.image_path, c.category_name 
+                                            FROM products p 
+                                            JOIN categories c ON p.category_id = c.id
+                                            WHERE c.category_name = ?");
+                    $stmt->bind_param("s", $selected_category);
+                    $stmt->execute();
+                    $result = $stmt->get_result();
+                } else {
+                    $sql = "SELECT p.product_id, p.product_name, p.price, p.quantity, p.brand, p.description, p.image_path, c.category_name 
+                            FROM products p 
+                            JOIN categories c ON p.category_id = c.id";
+                    $result = $conn->query($sql);
+                }
+
 
                 if ($result->num_rows > 0) {
                     while($row = $result->fetch_assoc()) {
                         echo '<div class="product-card">';
-                        echo '<img src="' . htmlspecialchars($row['image_path']) . '" alt="' . htmlspecialchars($row['product_name']) . '">';
-                        echo '<h3>' . htmlspecialchars($row['product_name']) . '</h3>';
+                        echo '<a href="userProductDetails.php?id=' . intval($row['product_id']) . '"><img src="' . htmlspecialchars($row['image_path']) . '" alt="' . htmlspecialchars($row['product_name']) . '"></a>';
+                        echo '<a href="userProductDetails.php?id=' . intval($row['product_id']) . '"><h3>' . htmlspecialchars($row['product_name']) . '</h3></a>';
                         echo '<p>Category: ' . htmlspecialchars($row['category_name']) . '</p>';
                         echo '<p>Brand: ' . htmlspecialchars($row['brand']) . '</p>';
                         echo '<p>Price: $' . number_format($row['price'], 2) . '</p>';
@@ -51,4 +72,6 @@ include 'Includes/connection.php';
             </div>
         </div>
     </div>
+
 </main>
+<?php include 'Includes/userFooter.php'; ?>

@@ -14,19 +14,18 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $brand = trim($_POST['brand']);
     $description = trim($_POST['description']);
 
-    $stmt = $conn->prepare("SELECT id FROM categories WHERE category_name = ?");
-    $stmt->bind_param("s", $category);
-    $stmt->execute();
-    $stmt->bind_result($category_id);
-    if ($stmt->fetch()) {
-    } else {
-        $stmt->close();
-        $stmt = $conn->prepare("INSERT INTO categories (category_name) VALUES (?)");
-        $stmt->bind_param("s", $category);
-        $stmt->execute();
-        $category_id = $stmt->insert_id;
+    $category_id = intval($_POST['category']);
+
+    $check_stmt = $conn->prepare("SELECT id FROM categories WHERE id = ?");
+    $check_stmt->bind_param("i", $category_id);
+    $check_stmt->execute();
+    $check_stmt->store_result();    
+
+    if ($check_stmt->num_rows === 0) {
+        echo "<script>alert('Invalid category selected.'); window.history.back();</script>";
+        exit;
     }
-    $stmt->close();
+    $check_stmt->close();
 
     if (isset($_FILES['image']) && $_FILES['image']['error'] === UPLOAD_ERR_OK) {
         $fileTmpPath = $_FILES['image']['tmp_name'];
@@ -102,7 +101,6 @@ include 'Includes/adminNav.php';
                             . htmlspecialchars($cat['category_name']) . 
                             '</option>';
                     }
-
                     $cat_stmt->close();
                     ?>
                 </select>

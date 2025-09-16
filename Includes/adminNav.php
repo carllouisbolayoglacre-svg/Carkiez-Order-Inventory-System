@@ -9,9 +9,9 @@
             </button>
             <div class="dropdown-content">
                 <a href="adminAddProduct.php">Add Product</a>
-                <a href="manageProducts.php">Manage Products</a>
+                <a href="adminProducts.php">Manage Products</a>
                 <a href="adminAddCategory.php">Add Category</a>
-                <a href="manageCategories.php">Manage Categories</a>
+                <a href="adminCategories.php">Manage Categories</a>
             </div>
         </div>
         <div class="dropdown">

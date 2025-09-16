@@ -48,7 +48,6 @@ handle_logout();
         <div class="nav-spacer">
             <a href="userLanding.php">Home</a>
             <a href="categories.php">Categories</a>
-            <a href="brands.php">Brands</a>
             <a href="userProducts.php">All Products</a>
         </div>
     </nav>
