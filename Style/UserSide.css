@@ -519,6 +519,7 @@ footer a {
     display: flex;
     flex-direction: column;
     text-align: left;
+    gap: 10px;
 }
 
 .category-link {
@@ -536,6 +537,13 @@ footer a {
     margin-bottom: 15px;
     font-size: 1.5rem;
     color: #444;
+    text-align: left;
+}
+
+.products-container p {
+    margin-bottom: 20px;
+    font-size: 1rem;
+    color: #666;
     text-align: left;
 }
 
@@ -579,3 +587,124 @@ footer a {
     color: #2a7;
 }
 
+@media (max-width: 600px) {
+    .product-page-container {
+        flex-direction: column;
+    }
+    .product-card {
+        padding: 10px;
+        margin: 0 auto;
+    }
+    .category-list {
+        display:none;
+    }
+    .category-link {
+        flex: 1;
+        text-align: center;
+    }
+}
+
+/* Product Details Page */
+.product-details-container {
+    display: flex;
+    max-width: 1100px;
+    margin: 20px auto;
+    padding: 20px;
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    font-family: Arial, sans-serif;
+    flex-direction: row;
+}
+
+.product-details{
+    flex: 2;
+    padding: 0 20px;
+    text-align: left;
+    min-width: 400px;
+}
+
+.product-details h2 {
+    font-size: 2rem;
+    margin-top: 1rem;
+    color: #222;
+}
+
+.product-details h3 {
+    font-size: 2rem;
+    margin-top: 1rem;
+    color: red;
+}
+
+.product-image {
+    display: flex;
+    align-items: center;
+    flex: 1 1 300px;
+    max-width: 400px;
+    text-align: center;
+    margin-right: 1rem;
+    min-height: 400px;
+}
+
+.product-image img {
+    max-width: 100%;
+    height: auto;
+}
+
+.product-details form {
+    margin-top: 20px;
+    display: flex;
+    align-items: left;
+    gap: 10px;
+    flex-direction: column;
+}
+
+.product-details form label {
+    font-weight: bold;
+    color: #333;
+}
+
+.product-details form input[type="number"] {
+    width: 60px;
+    padding: 5px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+.product-details form button {
+    padding: 10px 15px;
+    border: none;
+    border-radius: 6px;
+    background-color: #000000;
+    color: white;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.product-details form button:hover {
+    background-color: #353535;
+}
+
+.product-details hr {
+    margin: 20px 0;
+    border: none;
+    border-top: 1px solid #eee;
+}
+
+@media (max-width: 800px) {
+    .product-details-container {
+        flex-direction: column;
+        align-items: center;
+        border: none;
+        box-shadow: none;
+    }
+    .product-image {
+        margin: 0 0 20px 0;
+        max-width: 90%;
+        min-width: 90%;
+    }
+    .product-details {
+        padding: 0;
+    }
+}

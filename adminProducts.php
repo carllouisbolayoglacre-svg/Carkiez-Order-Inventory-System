@@ -43,7 +43,7 @@ include 'Includes/adminNav.php';
                             echo '<td>' . htmlspecialchars($row['product_name']) . '</td>';
                             echo '<td>' . htmlspecialchars($row['category_name']) . '</td>';
                             echo '<td>' . htmlspecialchars($row['brand']) . '</td>';
-                            echo '<td>$' . number_format($row['price'], 2) . '</td>';
+                            echo '<td>₱' . number_format($row['price'], 2) . '</td>';
                             echo '<td>' . intval($row['quantity']) . '</td>';
                             $shortDesc = mb_strimwidth($row['description'], 0, 50, "...");
                             echo '<td title="' . htmlspecialchars($row['description']) . '">' 
