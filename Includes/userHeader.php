@@ -1,4 +1,5 @@
 <?php
+include_once 'Includes/connection.php';
 include 'Includes/auth.php';
 session_start();
 
@@ -47,7 +48,42 @@ handle_logout();
     <nav>
         <div class="nav-spacer">
             <a href="index.php">Home</a>
-            <a href="categories.php">Categories</a>
+            <div class="dropdown">
+                <button class="dropbtn">Categories 
+                <span class="caret"></span></i>
+                </button>
+                    <div class="dropdown-content">
+                    <?php
+                        $sql = "SELECT id, category_name FROM categories";
+                        $result = $conn->query($sql);
+                        if ($result->num_rows > 0) {
+                            while($row = $result->fetch_assoc()) {
+                                echo '<a href="userProducts.php?category=' . intval($row['id']) . '">' . htmlspecialchars($row['category_name']) . '</a>';
+                            }
+                        } else {
+                            echo '<a href="#">No Categories</a>';
+                        }
+                    ?>
+                </div>
+            </div>
+             <div class="dropdown">
+                <button class="dropbtn">Brands 
+                <span class="caret"></span></i>
+                </button>
+                    <div class="dropdown-content">
+                    <?php
+                        $sql = "SELECT id, brand_name FROM brands";
+                        $result = $conn->query($sql);
+                        if ($result->num_rows > 0) {
+                            while($row = $result->fetch_assoc()) {
+                                echo '<a href="userProducts.php?brand=' . intval($row['id']) . '">' . htmlspecialchars($row['brand_name']) . '</a>';
+                            }
+                        } else {
+                            echo '<a href="#">No Brands</a>';
+                        }
+                    ?>
+                </div>
+            </div>
             <a href="userProducts.php">All Products</a>
         </div>
     </nav>

@@ -30,9 +30,10 @@ include 'Includes/adminNav.php';
                 </thead>
                 <tbody>
                     <?php
-                    $sql = "SELECT p.product_id, p.product_name, p.price, p.quantity, p.brand, p.description, p.image_path, p.created_at, c.category_name 
+                    $sql = "SELECT p.product_id, p.product_name, p.price, p.quantity, p.description, p.image_path, p.created_at, c.category_name, b.brand_name 
                             FROM products p 
-                            JOIN categories c ON p.category_id = c.id";
+                            JOIN categories c ON p.category_id = c.id
+                            JOIN brands b ON p.brand_id = b.id";
                     $result = $conn->query($sql);
 
                     if ($result->num_rows > 0) {
@@ -42,7 +43,7 @@ include 'Includes/adminNav.php';
                             echo '<td>' . date("Y-m-d H:i:s", strtotime($row['created_at'])) . '</td>';
                             echo '<td>' . htmlspecialchars($row['product_name']) . '</td>';
                             echo '<td>' . htmlspecialchars($row['category_name']) . '</td>';
-                            echo '<td>' . htmlspecialchars($row['brand']) . '</td>';
+                            echo '<td>' . htmlspecialchars($row['brand_name']) . '</td>';
                             echo '<td>₱' . number_format($row['price'], 2) . '</td>';
                             echo '<td>' . intval($row['quantity']) . '</td>';
                             $shortDesc = mb_strimwidth($row['description'], 0, 50, "...");

@@ -12,6 +12,8 @@
                 <a href="adminProducts.php">Manage Products</a>
                 <a href="adminAddCategory.php">Add Category</a>
                 <a href="adminCategories.php">Manage Categories</a>
+                <a href="adminAddBrand.php">Add Brand</a>
+                <a href="adminBrands.php">Manage Brands</a>
             </div>
         </div>
         <div class="dropdown">

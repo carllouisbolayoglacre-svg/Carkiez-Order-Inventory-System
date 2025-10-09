@@ -10,19 +10,28 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $product_name = trim($_POST['product_name']);
     $price = floatval($_POST['price']);
     $quantity = intval($_POST['quantity']);
-    $category = trim($_POST['category']);
-    $brand = trim($_POST['brand']);
+    $category_id = intval($_POST['category']);
+    $brand_id = intval($_POST['brand']);
     $description = trim($_POST['description']);
 
-    $category_id = intval($_POST['category']);
-
+    // Validate category
     $check_stmt = $conn->prepare("SELECT id FROM categories WHERE id = ?");
     $check_stmt->bind_param("i", $category_id);
     $check_stmt->execute();
     $check_stmt->store_result();    
-
     if ($check_stmt->num_rows === 0) {
         echo "<script>alert('Invalid category selected.'); window.history.back();</script>";
+        exit;
+    }
+    $check_stmt->close();
+
+    // Validate brand
+    $check_stmt = $conn->prepare("SELECT id FROM brands WHERE id = ?");
+    $check_stmt->bind_param("i", $brand_id);
+    $check_stmt->execute();
+    $check_stmt->store_result();    
+    if ($check_stmt->num_rows === 0) {
+        echo "<script>alert('Invalid brand selected.'); window.history.back();</script>";
         exit;
     }
     $check_stmt->close();
@@ -44,9 +53,9 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
             if(move_uploaded_file($fileTmpPath, $dest_path)) {
                 $stmt = $conn->prepare("INSERT INTO products 
-                    (product_name, price, quantity, category_id, brand, description, image_path) 
+                    (product_name, price, quantity, category_id, brand_id, description, image_path) 
                     VALUES (?, ?, ?, ?, ?, ?, ?)");
-                $stmt->bind_param("sdiisss", $product_name, $price, $quantity, $category_id, $brand, $description, $dest_path);
+                $stmt->bind_param("sdiisss", $product_name, $price, $quantity, $category_id, $brand_id, $description, $dest_path);
 
                 if ($stmt->execute()) {
                     echo "<script>alert('Product added successfully!'); window.location.href='adminAddProduct.php';</script>";
@@ -107,7 +116,21 @@ include 'Includes/adminNav.php';
             </div>
             <div class="form-field">
                 <label for="brand">Brand:</label>
-                <input type="text" id="brand" name="brand" required>
+                <select id="brand" name="brand" required>
+                    <option value="">Select Brand</option>
+                    <?php
+                    $cat_stmt = $conn->prepare("SELECT id, brand_name FROM brands ORDER BY brand_name ASC");
+                    $cat_stmt->execute();
+                    $cat_result = $cat_stmt->get_result();
+
+                    while ($cat = $cat_result->fetch_assoc()) {
+                        echo '<option value="' . htmlspecialchars($cat['id']) . '">' 
+                            . htmlspecialchars($cat['brand_name']) . 
+                            '</option>';
+                    }
+                    $cat_stmt->close();
+                    ?>
+                </select>
             </div>
         </div>
 

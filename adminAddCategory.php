@@ -47,7 +47,7 @@ include 'Includes/adminNav.php';
     <div class="input-product-container">
     <h2>Add Category</h2>
     <form action="adminAddCategory.php" method="post" enctype="multipart/form-data">
-        <label for="category_name">Product Name:</label>
+        <label for="category_name">Category Name:</label>
         <input type="text" id="category_name" name="category_name" required>
         <button type="submit">Add Category</button>
     </form>
