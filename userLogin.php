@@ -22,13 +22,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if ($user && password_verify($password, $user['password'])) {
         // Valid login → set session
         $_SESSION['user_logged_in'] = true;  // Set session status for user
-        $_SESSION['user_id'] = $user['id'];
+        $_SESSION['user_id'] = $user['user_id'];
         $_SESSION['username'] = $user['username'];
 
         header("Location: index.php");
         exit;
     } else {
         $login_error = "❌ Invalid username/email or password!";
+        echo "<script>alert('$login_error'); window.history.back();</script>";
     }
 }
 ?>

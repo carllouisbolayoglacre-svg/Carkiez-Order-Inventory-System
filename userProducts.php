@@ -79,34 +79,47 @@ include 'Includes/connection.php';
 
                 $selected_category = $_GET['category'] ?? '';
                 $selected_brand = $_GET['brand'] ?? '';
+                $search = trim($_GET['search'] ?? '');
+
+                $where = [];
+                $params = [];
+                $types = '';
 
                 if ($selected_category) {
-                    $stmt = $conn->prepare("SELECT p.product_id, p.product_name, p.price, p.quantity, p.description, p.image_path, c.category_name, b.brand_name
-                                            FROM products p 
-                                            JOIN categories c ON p.category_id = c.id
-                                            JOIN brands b ON p.brand_id = b.id
-                                            WHERE p.category_id = ?");
-                    $stmt->bind_param("i", $selected_category);
-                    $stmt->execute();
-                    $result = $stmt->get_result();
-                    $stmt->close();
-                } elseif ($selected_brand) {
-                    $stmt = $conn->prepare("SELECT p.product_id, p.product_name, p.price, p.quantity, p.description, p.image_path, c.category_name, b.brand_name
-                                            FROM products p 
-                                            JOIN categories c ON p.category_id = c.id
-                                            JOIN brands b ON p.brand_id = b.id
-                                            WHERE p.brand_id = ?");
-                    $stmt->bind_param("i", $selected_brand);
-                    $stmt->execute();
-                    $result = $stmt->get_result();
-                    $stmt->close();
-                } else {
-                    $sql = "SELECT p.product_id, p.product_name, p.price, p.quantity, p.description, p.image_path, c.category_name, b.brand_name
-                            FROM products p 
-                            JOIN categories c ON p.category_id = c.id
-                            JOIN brands b ON p.brand_id = b.id";
-                    $result = $conn->query($sql);
+                    $where[] = 'p.category_id = ?';
+                    $params[] = $selected_category;
+                    $types .= 'i';
                 }
+                if ($selected_brand) {
+                    $where[] = 'p.brand_id = ?';
+                    $params[] = $selected_brand;
+                    $types .= 'i';
+                }
+                if ($search !== '') {
+                    $where[] = '(p.product_name LIKE ? OR p.description LIKE ?)';
+                    $params[] = "%$search%";
+                    $params[] = "%$search%";
+                    $types .= 'ss';
+                }
+
+                $sql = "SELECT p.product_id, p.product_name, p.price, p.quantity, p.description, p.image_path, c.category_name, b.brand_name
+                        FROM products p 
+                        JOIN categories c ON p.category_id = c.id
+                        JOIN brands b ON p.brand_id = b.id";
+
+                if ($where) {
+                    $sql .= " WHERE " . implode(' AND ', $where);
+                }
+
+                $stmt = $conn->prepare($sql);
+
+                if ($params) {
+                    $stmt->bind_param($types, ...$params);
+                }
+
+                $stmt->execute();
+                $result = $stmt->get_result();
+                $stmt->close();
 
 
                 if ($result->num_rows > 0) {

@@ -21,7 +21,7 @@ function handle_logout() {
 // Check if the admin is already logged in
 function Check_login(){
     if (isset($_SESSION['user_logged_in']) && $_SESSION['user_logged_in'] === true) {
-    echo "<script>alert('User is already logged in!'); window.location.href = 'userLanding.php';</script>";
+    echo "<script>alert('User is already logged in!'); window.location.href = 'index.php';</script>";
     exit();
     }
 }

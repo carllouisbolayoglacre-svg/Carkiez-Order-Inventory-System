@@ -34,11 +34,15 @@ include 'Includes/connection.php';
             <hr>
             <h3>₱<?php echo number_format($row['price'], 2); ?></h3>
             <p><strong>Stock:</strong> <?php echo intval($row['quantity']); ?></p>
-            <form method="POST" action="userAddToCart.php">
+            <form method="POST" action="Includes/userAddToCart.php">
                 <input type="hidden" name="product_id" value="<?php echo intval($row['product_id']); ?>">
                 <div>
                     <label for="quantity">Quantity:</label>
-                    <input type="number" id="quantity" name="quantity" value="1" min="1" max="<?php echo intval($row['quantity']); ?>" required>
+                    <div class="quantity">
+                        <button type="button" class="minus">−</button>
+                        <input type="number" value="1" min="1" max="<?php echo intval($row['quantity']); ?>" name="quantity" id="quantity" required>
+                        <button type="button" class="plus">+</button>
+                    </div>
                 </div>
                 <button type="submit" name="add_to_cart">Add to Cart</button>
             </form>
@@ -51,3 +55,4 @@ include 'Includes/connection.php';
 
 </main>
 <?php include 'Includes/userFooter.php'; ?>
+<?php include 'Includes/quantitybuttons.php'; ?>
