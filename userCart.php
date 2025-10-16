@@ -111,7 +111,7 @@ if ($result->num_rows > 0) {
             <?php } ?>
         </div>
         <div class="checkout-section">
-            <form id="cart-form" method="POST" action="Includes/userCheckout.php">
+            <form id="cart-form" method="GET" action="userCheckout.php">
                 <div class="cart-total">
                     <h3>Total:</h3>
                     <h3>₱<?php echo number_format($total, 2); ?></h3>
@@ -135,3 +135,113 @@ if ($result->num_rows > 0) {
 include 'Includes/userFooter.php';
 include 'Includes/quantitybuttons.php';
 ?>
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  // Handle plus buttons
+  document.querySelectorAll('.plus').forEach(btn => {
+    btn.addEventListener('click', function() {
+      const cartItemId = this.getAttribute('data-id');
+      updateCart(cartItemId, 'increase');
+    });
+  });
+
+  // Handle minus buttons
+  document.querySelectorAll('.minus').forEach(btn => {
+    btn.addEventListener('click', function() {
+      const cartItemId = this.getAttribute('data-id');
+      updateCart(cartItemId, 'decrease');
+    });
+  });
+
+  // Handle remove buttons
+  document.querySelectorAll('.remove-btn').forEach(btn => {
+    btn.addEventListener('click', function() {
+      if (confirm('Remove this item from cart?')) {
+        const cartItemId = this.getAttribute('data-id');
+        updateCart(cartItemId, 'remove');
+      }
+    });
+  });
+
+  // Handle direct input change
+  document.querySelectorAll('.quantity input[type="number"]').forEach(input => {
+    // Store the original value
+    let originalValue = input.value;
+    
+    input.addEventListener('change', function() {
+      const newValue = parseInt(this.value);
+      const min = parseInt(this.min) || 1;
+      const max = parseInt(this.max) || Infinity;
+      
+      // Validate the input
+      if (isNaN(newValue) || newValue < min) {
+        this.value = min;
+      } else if (newValue > max) {
+        this.value = max;
+        alert('Maximum available quantity is ' + max);
+      }
+      
+      // Only update if value actually changed
+      if (this.value !== originalValue) {
+        const cartItemId = this.closest('.quantity').querySelector('button').getAttribute('data-id');
+        updateCartDirect(cartItemId, parseInt(this.value));
+        originalValue = this.value;
+      }
+    });
+
+    // Prevent non-numeric input
+    input.addEventListener('keypress', function(e) {
+      if (e.which < 48 || e.which > 57) {
+        e.preventDefault();
+      }
+    });
+  });
+
+  function updateCart(cartItemId, action) {
+    const formData = new FormData();
+    formData.append('cart_item_id', cartItemId);
+    formData.append('action', action);
+
+    fetch('Includes/userUpdateCart.php', {
+      method: 'POST',
+      body: formData
+    })
+    .then(response => response.json())
+    .then(data => {
+      if (data.success) {
+        location.reload();
+      } else {
+        alert(data.message || 'Error updating cart');
+      }
+    })
+    .catch(error => {
+      console.error('Error:', error);
+      alert('Error updating cart');
+    });
+  }
+
+  function updateCartDirect(cartItemId, quantity) {
+    const formData = new FormData();
+    formData.append('cart_item_id', cartItemId);
+    formData.append('action', 'set_quantity');
+    formData.append('quantity', quantity);
+
+    fetch('Includes/userUpdateCart.php', {
+      method: 'POST',
+      body: formData
+    })
+    .then(response => response.json())
+    .then(data => {
+      if (data.success) {
+        location.reload();
+      } else {
+        alert(data.message || 'Error updating cart');
+      }
+    })
+    .catch(error => {
+      console.error('Error:', error);
+      alert('Error updating cart');
+    });
+  }
+});
+</script>
