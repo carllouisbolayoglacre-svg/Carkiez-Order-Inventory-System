@@ -21,7 +21,7 @@
                 <span class="caret"></span>
             </button>
             <div class="dropdown-content">
-                <a href="viewOrders.php">View Orders</a>
+                <a href="adminOrders.php">View Orders</a>
                 <a href="manageOrders.php">Manage Orders</a>
             </div>
         </div>
