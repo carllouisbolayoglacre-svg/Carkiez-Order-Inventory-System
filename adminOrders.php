@@ -92,14 +92,12 @@ include 'Includes/adminNav.php';
                         echo '<td>₱' . number_format($row['total_amount'], 2) . '</td>';
                         echo '<td>' . ucwords(str_replace('_', ' ', $row['payment_method'])) . '</td>';
                         
-                        // Payment Status with color
                         $payment_class = '';
                         if ($row['payment_status'] === 'paid') $payment_class = 'status-paid';
                         elseif ($row['payment_status'] === 'pending') $payment_class = 'status-pending-payment';
                         elseif ($row['payment_status'] === 'refunded') $payment_class = 'status-refunded';
                         echo '<td><span class="status-badge ' . $payment_class . '">' . ucfirst($row['payment_status']) . '</span></td>';
                         
-                        // Order Status with color
                         $status_class = '';
                         if ($row['order_status'] === 'pending') $status_class = 'status-pending';
                         elseif ($row['order_status'] === 'confirmed') $status_class = 'status-confirmed';

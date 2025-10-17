@@ -392,7 +392,6 @@ aside {
     border-radius: 10px;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
     background: #fafafa;
-    font-family: Arial, sans-serif;
 }
 .admin-products-container h2 {
     text-align: center;
@@ -438,6 +437,7 @@ aside {
 .admin-products-container button:hover {
     background-color: #e61c00;
 }
+/* order/order summary*/
 .filter-section {
     background: white;
     padding: 20px;
@@ -1118,3 +1118,4 @@ aside {
         grid-template-columns: 1fr;
     }
 }
+/* Users Table*/

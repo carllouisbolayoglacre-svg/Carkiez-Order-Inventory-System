@@ -96,9 +96,7 @@ include 'Includes/adminNav.php';
         <h1>Admin Dashboard</h1>
         <p class="welcome-text">Welcome back, <?php echo htmlspecialchars($_SESSION['admin_username']); ?>!</p>
         
-        <!-- Stats Grid -->
         <div class="stats-grid">
-            <!-- Total Orders Card -->
             <div class="stat-card">
                 <div class="stat-group">
                     <h3>Total Orders</h3>
@@ -128,7 +126,6 @@ include 'Includes/adminNav.php';
                 </div>
             </div>
 
-            <!-- Total Sales Card -->
             <div class="stat-card">
                 <div class="stat-group">
                     <h3>Total Revenue</h3>
@@ -138,7 +135,6 @@ include 'Includes/adminNav.php';
                 <p class="stat-subtitle">From completed orders</p>
             </div>
 
-            <!-- Total Products Card -->
             <div class="stat-card">
                 <div class="stat-group">
                     <h3>Products in Inventory</h3>
@@ -147,7 +143,6 @@ include 'Includes/adminNav.php';
                 <p class="stat-subtitle">Total Stock: <?php echo number_format($products_data['total_stock'] ?? 0); ?> units</p>
             </div>
 
-            <!-- Total Users Card -->
             <div class="stat-card">
                 <div class="stat-group">
                     <h3>Registered Users</h3>
@@ -157,9 +152,7 @@ include 'Includes/adminNav.php';
             </div>
         </div>
 
-        <!-- Recent Activity Section -->
         <div class="activity-section">
-            <!-- Recent Orders -->
             <div class="activity-card">
                 <div class="activity-header">
                     <h3>Recent Orders</h3>
@@ -169,12 +162,6 @@ include 'Includes/adminNav.php';
                     <?php if (count($recent_orders) > 0): ?>
                         <?php foreach ($recent_orders as $order): ?>
                         <div class="activity-item">
-                            <div class="activity-icon order-icon">
-                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                    <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path>
-                                    <line x1="3" y1="6" x2="21" y2="6"></line>
-                                </svg>
-                            </div>
                             <div class="activity-content">
                                 <p class="activity-title">Order #<?php echo str_pad($order['order_id'], 6, '0', STR_PAD_LEFT); ?></p>
                                 <p class="activity-subtitle"><?php echo htmlspecialchars($order['first_name'] . ' ' . $order['last_name']); ?> - ₱<?php echo number_format($order['total_amount'], 2); ?></p>
@@ -191,7 +178,6 @@ include 'Includes/adminNav.php';
                 </div>
             </div>
 
-            <!-- Low Stock Alert -->
             <div class="activity-card">
                 <div class="activity-header">
                     <h3>Low Stock Alert</h3>

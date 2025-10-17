@@ -22,7 +22,6 @@
             </button>
             <div class="dropdown-content">
                 <a href="adminOrders.php">View Orders</a>
-                <a href="manageOrders.php">Manage Orders</a>
             </div>
         </div>
         <div class="dropdown">
@@ -30,8 +29,7 @@
                 <span class="caret"></span>
             </button>
             <div class="dropdown-content">
-                <a href="viewUsers.php">View Users</a>
-                <a href="manageUsers.php">Manage Users</a>
+                <a href="adminUsers.php">View Users</a>
             </div>
         </div>
         <div class="dropdown">
@@ -39,8 +37,8 @@
                  <span class="caret"></span>
             </button>
             <div class="dropdown-content">
-                <a href="addStaff.php">Add Staff</a>
-                <a href="manageStaff.php">Manage Staff</a>
+                <a href="adminAddStaff.php">Add Staff</a>
+                <a href="adminStaff.php">Manage Staff</a>
             </div>
         </div>
         <a href="adminSettings.php">Settings</a>
