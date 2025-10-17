@@ -9,13 +9,14 @@ handle_logout();
 // Get filter parameters
 $status_filter = $_GET['status'] ?? '';
 $search = trim($_GET['search'] ?? '');
+$sort_by = $_GET['sort'] ?? 'date_desc'; // Default sort
 
 // Build query with filters
 $where = [];
 $params = [];
 $types = '';
 
-if ($status_filter !== '') {
+if ($status_filter !== '' && $status_filter !== 'all') {
     $where[] = 'o.order_status = ?';
     $params[] = $status_filter;
     $types .= 's';
@@ -31,6 +32,29 @@ if ($search !== '') {
     $types .= 'ssss';
 }
 
+// Determine ORDER BY clause based on sort parameter
+$order_by = "o.order_date DESC"; // Default
+switch ($sort_by) {
+    case 'date_asc':
+        $order_by = "o.order_date ASC";
+        break;
+    case 'date_desc':
+        $order_by = "o.order_date DESC";
+        break;
+    case 'amount_asc':
+        $order_by = "o.total_amount ASC";
+        break;
+    case 'amount_desc':
+        $order_by = "o.total_amount DESC";
+        break;
+    case 'customer_asc':
+        $order_by = "u.first_name ASC, u.last_name ASC";
+        break;
+    case 'customer_desc':
+        $order_by = "u.first_name DESC, u.last_name DESC";
+        break;
+}
+
 $sql = "SELECT o.order_id, o.order_date, o.total_amount, o.payment_method, 
                o.payment_status, o.order_status,
                u.username, u.first_name, u.last_name, u.email, u.contact_number,
@@ -43,7 +67,7 @@ if ($where) {
     $sql .= " WHERE " . implode(' AND ', $where);
 }
 
-$sql .= " GROUP BY o.order_id ORDER BY o.order_date DESC";
+$sql .= " GROUP BY o.order_id ORDER BY " . $order_by;
 
 $stmt = $conn->prepare($sql);
 
@@ -53,6 +77,33 @@ if ($params) {
 
 $stmt->execute();
 $result = $stmt->get_result();
+
+// Get count for each status
+$count_stmt = $conn->query("
+    SELECT 
+        order_status,
+        COUNT(*) as count
+    FROM orders
+    GROUP BY order_status
+");
+
+$status_counts = [
+    'all' => 0,
+    'pending' => 0,
+    'confirmed' => 0,
+    'ready_for_pickup' => 0,
+    'completed' => 0,
+    'cancelled' => 0
+];
+
+// Get total count
+$total_count = $conn->query("SELECT COUNT(*) as total FROM orders")->fetch_assoc()['total'];
+$status_counts['all'] = $total_count;
+
+while ($count_row = $count_stmt->fetch_assoc()) {
+    $status_counts[$count_row['order_status']] = $count_row['count'];
+}
+
 $stmt->close();
 ?>
 
@@ -64,6 +115,58 @@ include 'Includes/adminNav.php';
 <main>
     <div class="admin-products-container">
         <h2>All Orders</h2>
+        
+        <div class="order-tabs">
+            <a href="?status=all&sort=<?php echo htmlspecialchars($sort_by); ?>&search=<?php echo htmlspecialchars($search); ?>" 
+               class="order-tab <?php echo ($status_filter === '' || $status_filter === 'all') ? 'active' : ''; ?>">
+                All Orders (<?php echo $status_counts['all']; ?>)
+            </a>
+            <a href="?status=pending&sort=<?php echo htmlspecialchars($sort_by); ?>&search=<?php echo htmlspecialchars($search); ?>" 
+               class="order-tab <?php echo $status_filter === 'pending' ? 'active' : ''; ?>">
+                Pending (<?php echo $status_counts['pending']; ?>)
+            </a>
+            <a href="?status=confirmed&sort=<?php echo htmlspecialchars($sort_by); ?>&search=<?php echo htmlspecialchars($search); ?>" 
+               class="order-tab <?php echo $status_filter === 'confirmed' ? 'active' : ''; ?>">
+                Confirmed (<?php echo $status_counts['confirmed']; ?>)
+            </a>
+            <a href="?status=ready_for_pickup&sort=<?php echo htmlspecialchars($sort_by); ?>&search=<?php echo htmlspecialchars($search); ?>" 
+               class="order-tab <?php echo $status_filter === 'ready_for_pickup' ? 'active' : ''; ?>">
+                Ready for Pickup (<?php echo $status_counts['ready_for_pickup']; ?>)
+            </a>
+            <a href="?status=completed&sort=<?php echo htmlspecialchars($sort_by); ?>&search=<?php echo htmlspecialchars($search); ?>" 
+               class="order-tab <?php echo $status_filter === 'completed' ? 'active' : ''; ?>">
+                Completed (<?php echo $status_counts['completed']; ?>)
+            </a>
+            <a href="?status=cancelled&sort=<?php echo htmlspecialchars($sort_by); ?>&search=<?php echo htmlspecialchars($search); ?>" 
+               class="order-tab <?php echo $status_filter === 'cancelled' ? 'active' : ''; ?>">
+                Cancelled (<?php echo $status_counts['cancelled']; ?>)
+            </a>
+        </div>
+
+        <form method="get" action="adminOrders.php" class="filter-controls">
+            <input type="hidden" name="status" value="<?php echo htmlspecialchars($status_filter); ?>">
+            
+            <div class="search-box">
+                <input type="text" name="search" placeholder="Search by customer name, username, or order ID..." 
+                       value="<?php echo htmlspecialchars($search); ?>">
+            </div>
+            
+            <div class="sort-box">
+                <label for="sort">Sort by:</label>
+                <select name="sort" id="sort">
+                    <option value="date_desc" <?php echo $sort_by === 'date_desc' ? 'selected' : ''; ?>>Date (Newest First)</option>
+                    <option value="date_asc" <?php echo $sort_by === 'date_asc' ? 'selected' : ''; ?>>Date (Oldest First)</option>
+                    <option value="amount_desc" <?php echo $sort_by === 'amount_desc' ? 'selected' : ''; ?>>Amount (High to Low)</option>
+                    <option value="amount_asc" <?php echo $sort_by === 'amount_asc' ? 'selected' : ''; ?>>Amount (Low to High)</option>
+                    <option value="customer_asc" <?php echo $sort_by === 'customer_asc' ? 'selected' : ''; ?>>Customer (A-Z)</option>
+                    <option value="customer_desc" <?php echo $sort_by === 'customer_desc' ? 'selected' : ''; ?>>Customer (Z-A)</option>
+                </select>
+            </div>
+            
+            <button type="submit" class="filter-btn">Apply</button>
+            <a href="adminOrders.php" class="clear-btn">Clear</a>
+        </form>
+
         <table>
             <thead>
                 <tr>
@@ -112,7 +215,7 @@ include 'Includes/adminNav.php';
                         echo '</tr>';
                     }
                 } else {
-                    echo "<tr><td colspan='10' style='text-align: center;'>No orders found.</td></tr>";
+                    echo "<tr><td colspan='10' style='text-align: center; padding: 30px; color: #999;'>No orders found.</td></tr>";
                 }
                 ?>
             </tbody>

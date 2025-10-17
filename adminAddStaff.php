@@ -62,18 +62,6 @@ include 'Includes/adminNav.php';
 <main>
     <div class="input-product-container">
         <h2>Add Staff Member</h2>
-        
-        <?php if (!empty($success_message)): ?>
-            <div style="padding: 1rem; margin-bottom: 1rem; background-color: #d4edda; color: #155724; border: 1px solid #c3e6cb; border-radius: 6px;">
-                ✓ <?= htmlspecialchars($success_message) ?>
-            </div>
-        <?php endif; ?>
-        
-        <?php if (!empty($error_message)): ?>
-            <div style="padding: 1rem; margin-bottom: 1rem; background-color: #f8d7da; color: #721c24; border: 1px solid #f5c6cb; border-radius: 6px;">
-                ✗ <?= htmlspecialchars($error_message) ?>
-            </div>
-        <?php endif; ?>
 
         <form action="adminAddStaff.php" method="post">
             
