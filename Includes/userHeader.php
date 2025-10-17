@@ -15,7 +15,7 @@ handle_logout();
 <header>
     <div class="login-bar">
         <?php if (isset($_SESSION['user_logged_in']) && $_SESSION['user_logged_in'] === true): ?>
-            <span>Welcome, <?php echo htmlspecialchars($_SESSION['username']); ?>!</span>
+            <span>Welcome, <a href="userProfile.php"><?php echo htmlspecialchars($_SESSION['username']); ?></a>!</span>
             <form method="post" style="display:inline;">
                 <button type="submit" name="logout">Logout</button>
             </form>
