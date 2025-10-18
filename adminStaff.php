@@ -74,8 +74,8 @@ include 'Includes/adminNav.php';
                                 <td><?= htmlspecialchars($staff['contact_number'] ?: '-') ?></td>
                                 <td><?= htmlspecialchars($staff['address'] ?: '-') ?></td>
                                 <td>
-                                    <a href="adminEditProduct.php?id=' . intval($row['product_id']) . '">Edit</a> | 
-                                    <a href="adminDeleteProduct.php?id=' . intval($row['product_id']) . '" onclick="return confirm(\'Are you sure you want to delete this product?\');">Delete</a>
+                                    <a href="adminEditStaff.php?id=<?= $staff['staff_id'] ?>">Edit</a> |
+                                    <a href="adminDeleteStaff.php?id=<?= $staff['staff_id'] ?>">Delete</a>
                                 </td>
                             </tr>
                         <?php endwhile; ?>

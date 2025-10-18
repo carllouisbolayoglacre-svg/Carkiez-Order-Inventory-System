@@ -22,6 +22,7 @@ include "Includes/adminNav.php";
                     <th>Last Name</th>
                     <th>Email</th>
                     <th>Contact Number</th>
+                    <th>Actions</th>
                 </tr>
             </thead>
             <tbody>
@@ -36,6 +37,10 @@ include "Includes/adminNav.php";
                         echo "<td>" . htmlspecialchars($row['last_name']) . "</td>";
                         echo "<td>" . htmlspecialchars($row['email']) . "</td>";
                         echo "<td>" . htmlspecialchars($row['contact_number']) . "</td>";
+                        echo '<td>
+                                <a href="adminEditUser.php?id=' . intval($row['user_id']) . '">Edit</a> | 
+                                <a href="adminDeleteUser.php?id=' . intval($row['user_id']) . '" onclick="return confirm(\'Are you sure you want to delete this category?\');">Delete</a>
+                            </td>';
                         echo "</tr>";
                     }
                 } else {
