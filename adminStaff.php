@@ -1,91 +1,101 @@
-<?php 
-include 'Includes/connection.php';
+<?php
 include 'Includes/admin_auth.php';
+include 'Includes/connection.php';
 
 session_start();
 check_login_redirect();
 handle_logout();
 
-$success_message = '';
-$error_message = '';
+$search = trim($_GET['search'] ?? '');
+$sort_by = $_GET['sort'] ?? 'id_asc';
 
-// Handle Delete
-if (isset($_GET['delete'])) {
-    $staff_id = (int)$_GET['delete'];
-    
-    $delete_stmt = $conn->prepare("DELETE FROM staff WHERE staff_id = ?");
-    $delete_stmt->bind_param("i", $staff_id);
-    
-    if ($delete_stmt->execute()) {
-        $success_message = "Staff member deleted successfully!";
-    } else {
-        $error_message = "Error deleting staff member: " . $delete_stmt->error;
-    }
-    $delete_stmt->close();
+$where = [];
+$params = [];
+$types = '';
+
+if ($search !== '') {
+    $where[] = '(username LIKE ? OR first_name LIKE ? OR last_name LIKE ? OR email LIKE ? OR contact_number LIKE ?)';
+    $search_param = "%$search%";
+    $params = array_fill(0, 5, $search_param);
+    $types = str_repeat('s', 5);
 }
 
-// Fetch all staff members
-$staff_query = "SELECT staff_id, username, first_name, middle_name, last_name, contact_number, address FROM staff ORDER BY staff_id DESC";
-$staff_result = $conn->query($staff_query);
+$order_by = "staff_id ASC";
+switch ($sort_by) {
+    case 'id_desc': $order_by = "staff_id DESC"; break;
+    case 'username_asc': $order_by = "username ASC"; break;
+    case 'username_desc': $order_by = "username DESC"; break;
+    case 'name_asc': $order_by = "first_name ASC, last_name ASC"; break;
+    case 'name_desc': $order_by = "first_name DESC, last_name DESC"; break;
+}
+
+$sql = "SELECT staff_id, username, first_name, last_name, contact_number FROM staff";
+if ($where) $sql .= " WHERE " . implode(' AND ', $where);
+$sql .= " ORDER BY $order_by";
+
+$stmt = $conn->prepare($sql);
+if ($params) $stmt->bind_param($types, ...$params);
+$stmt->execute();
+$result = $stmt->get_result();
+
+include "Includes/adminHeader.php";
+include "Includes/adminNav.php";
 ?>
-<?php
-include 'Includes/adminHeader.php';
-include 'Includes/adminNav.php';
-?>
+
 <main>
     <div class="admin-products-container">
-        <h2>Manage Staff Members</h2>
-        
-        <?php if (!empty($success_message)): ?>
-            <div style="padding: 1rem; margin-bottom: 1rem; background-color: #d4edda; color: #155724; border: 1px solid #c3e6cb; border-radius: 6px;">
-                ✓ <?= htmlspecialchars($success_message) ?>
+        <h2>All Users</h2>
+        <form method="get" action="adminUsers.php" class="filter-controls" style="margin-bottom:1rem;">
+            <div class="search-box">
+                <input type="text" name="search" placeholder="Search users..." value="<?php echo htmlspecialchars($search); ?>">
             </div>
-        <?php endif; ?>
-        
-        <?php if (!empty($error_message)): ?>
-            <div style="padding: 1rem; margin-bottom: 1rem; background-color: #f8d7da; color: #721c24; border: 1px solid #f5c6cb; border-radius: 6px;">
-                ✗ <?= htmlspecialchars($error_message) ?>
+            <div class="sort-box">
+                <label for="sort">Sort by:</label>
+                <select name="sort" id="sort">
+                    <option value="id_asc" <?php if($sort_by=='id_asc')echo'selected';?>>ID (Asc)</option>
+                    <option value="id_desc" <?php if($sort_by=='id_desc')echo'selected';?>>ID (Desc)</option>
+                    <option value="username_asc" <?php if($sort_by=='username_asc')echo'selected';?>>Username (A-Z)</option>
+                    <option value="username_desc" <?php if($sort_by=='username_desc')echo'selected';?>>Username (Z-A)</option>
+                    <option value="name_asc" <?php if($sort_by=='name_asc')echo'selected';?>>Name (A-Z)</option>
+                    <option value="name_desc" <?php if($sort_by=='name_desc')echo'selected';?>>Name (Z-A)</option>
+                </select>
             </div>
-        <?php endif; ?>
+            <button type="submit" class="filter-btn">Apply</button>
+            <a href="adminStaff.php" class="clear-btn">Clear</a>
+        </form>
+        <table border="1" cellpadding="8" cellspacing="0" style="width:100%; border-collapse:collapse;">
+            <thead>
+                <tr>
+                    <th>User ID</th>
+                    <th>Username</th>
+                    <th>First Name</th>
+                    <th>Last Name</th>
 
-        <?php if ($staff_result && $staff_result->num_rows > 0): ?>
-            <div style="overflow-x: auto;">
-                <table>
-                    <thead>
-                        <tr>
-                            <th>Staff ID</th>
-                            <th>Username</th>
-                            <th>First Name</th>
-                            <th>Middle Name</th>
-                            <th>Last Name</th>
-                            <th>Contact Number</th>
-                            <th>Address</th>
-                            <th>Actions</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <?php while ($staff = $staff_result->fetch_assoc()): ?>
-                            <tr>
-                                <td><?= htmlspecialchars($staff['staff_id']) ?></td>
-                                <td><strong><?= htmlspecialchars($staff['username']) ?></strong></td>
-                                <td><?= htmlspecialchars($staff['first_name']) ?></td>
-                                <td><?= htmlspecialchars($staff['middle_name'] ?: '-') ?></td>
-                                <td><?= htmlspecialchars($staff['last_name']) ?></td>
-                                <td><?= htmlspecialchars($staff['contact_number'] ?: '-') ?></td>
-                                <td><?= htmlspecialchars($staff['address'] ?: '-') ?></td>
-                                <td>
-                                    <a href="adminEditStaff.php?id=<?= $staff['staff_id'] ?>">Edit</a> |
-                                    <a href="adminDeleteStaff.php?id=<?= $staff['staff_id'] ?>">Delete</a>
-                                </td>
-                            </tr>
-                        <?php endwhile; ?>
-                    </tbody>
-                </table>
-            </div>
-        <?php else: ?>
-            <p style="text-align: center; color: #666; padding: 2rem;">No staff members found. <a href="adminAddStaff.php" style="color: #FF1E00; font-weight: bold;">Add your first staff member</a>.</p>
-        <?php endif; ?>
+                    <th>Contact Number</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                <?php
+                if ($result && $result->num_rows > 0) {
+                    while ($row = $result->fetch_assoc()) {
+                        echo "<tr>";
+                        echo "<td>" . htmlspecialchars($row['staff_id']) . "</td>";
+                        echo "<td>" . htmlspecialchars($row['username']) . "</td>";
+                        echo "<td>" . htmlspecialchars($row['first_name']) . "</td>";
+                        echo "<td>" . htmlspecialchars($row['last_name']) . "</td>";
+                        echo "<td>" . htmlspecialchars($row['contact_number']) . "</td>";
+                        echo '<td>
+                                <a href="adminEditStaff.php?id=' . intval($row['staff_id']) . '">Edit</a> | 
+                                <a href="adminDeleteStaff.php?id=' . intval($row['staff_id']) . '" onclick="return confirm(\'Are you sure you want to delete this category?\');">Delete</a>
+                            </td>';
+                        echo "</tr>";
+                    }
+                } else {
+                    echo "<tr><td colspan='7'>No Staff found.</td></tr>";
+                }
+                ?>
+            </tbody>
+        </table>
     </div>
 </main>
-</body>
-</html>
