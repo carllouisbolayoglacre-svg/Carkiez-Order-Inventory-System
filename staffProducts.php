@@ -44,12 +44,12 @@ $stmt->execute();
 $result = $stmt->get_result();
 
 include 'Includes/adminHeader.php';
-include 'Includes/adminNav.php';
+include 'Includes/staffNav.php';
 ?>
 <main>
     <div class="admin-products-container">
         <h2>All Products</h2>
-        <form method="get" action="adminProducts.php" class="filter-controls" style="margin-bottom:1rem;">
+        <form method="get" action="staffProducts.php" class="filter-controls" style="margin-bottom:1rem;">
             <div class="search-box">
                 <input type="text" name="search" placeholder="Search products, category, brand..." value="<?php echo htmlspecialchars($search); ?>">
             </div>
@@ -67,7 +67,7 @@ include 'Includes/adminNav.php';
                 </select>
             </div>
             <button type="submit" class="filter-btn">Apply</button>
-            <a href="adminProducts.php" class="clear-btn">Clear</a>
+            <a href="staffProducts.php" class="clear-btn">Clear</a>
         </form>
         <table>
             <thead>
@@ -81,7 +81,6 @@ include 'Includes/adminNav.php';
                     <th>Quantity</th>
                     <th>Description</th>
                     <th>Image</th>
-                    <th>Actions</th>
                 </tr>
             </thead>
             <tbody>
@@ -101,10 +100,6 @@ include 'Includes/adminNav.php';
                             . htmlspecialchars($shortDesc) . 
                             '</td>';
                         echo '<td><img src="' . htmlspecialchars($row['image_path']) . '" alt="' . htmlspecialchars($row['product_name']) . '" style="width: 50px; height: auto;"></td>';
-                        echo '<td>
-                                <a href="adminEditProduct.php?id=' . intval($row['product_id']) . '">Edit</a> | 
-                                <a href="adminDeleteProduct.php?id=' . intval($row['product_id']) . '" onclick="return confirm(\'Are you sure you want to delete this product?\');">Delete</a>
-                              </td>';
                         echo '</tr>';
                     }
                 } else {

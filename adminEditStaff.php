@@ -48,7 +48,6 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         if ($check_stmt->num_rows > 0) {
             $error_message = "Username already exists. Please choose a different username.";
         } else {
-            // Update staff - with or without password change
             if (!empty($new_password)) {
                 if (strlen($new_password) < 6) {
                     $error_message = "Password must be at least 6 characters long.";
@@ -56,20 +55,28 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                     $hashed_password = password_hash($new_password, PASSWORD_DEFAULT);
                     $update_stmt = $conn->prepare("UPDATE staff SET username = ?, password = ?, first_name = ?, middle_name = ?, last_name = ?, contact_number = ?, address = ? WHERE staff_id = ?");
                     $update_stmt->bind_param("sssssssi", $username, $hashed_password, $first_name, $middle_name, $last_name, $contact_number, $address, $staff_id);
+
+                    if ($update_stmt->execute()) {
+                        echo "<script>alert('Staff member updated successfully!'); window.location.href='adminStaff.php';</script>";
+                        exit();
+                    } else {
+                        $error_message = "Error: " . $update_stmt->error;
+                    }
+                    $update_stmt->close();
                 }
             } else {
                 // Update without changing password
                 $update_stmt = $conn->prepare("UPDATE staff SET username = ?, first_name = ?, middle_name = ?, last_name = ?, contact_number = ?, address = ? WHERE staff_id = ?");
                 $update_stmt->bind_param("ssssssi", $username, $first_name, $middle_name, $last_name, $contact_number, $address, $staff_id);
-            }
 
-            if (!isset($error_message) && $update_stmt->execute()) {
-                echo "<script>alert('Staff member updated successfully!'); window.location.href='adminStaff.php';</script>";
-                exit();
-            } else {
-                $error_message = "Error: " . $update_stmt->error;
+                if ($update_stmt->execute()) {
+                    echo "<script>alert('Staff member updated successfully!'); window.location.href='adminStaff.php';</script>";
+                    exit();
+                } else {
+                    $error_message = "Error: " . $update_stmt->error;
+                }
+                $update_stmt->close();
             }
-            $update_stmt->close();
         }
         $check_stmt->close();
     }
