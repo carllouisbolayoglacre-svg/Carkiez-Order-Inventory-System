@@ -13,6 +13,7 @@ handle_logout();
 </head>
 <body>
 <header>
+    <?php /* 
     <div class="login-bar">
         <?php if (isset($_SESSION['user_logged_in']) && $_SESSION['user_logged_in'] === true): ?>
             <span>Welcome, <a href="userProfile.php"><?php echo htmlspecialchars($_SESSION['username']); ?></a>!</span>
@@ -25,6 +26,7 @@ handle_logout();
             <a href="userRegister.php">Sign Up</a>
         <?php endif; ?>
     </div>
+    */?>
     <div class="header-container">
         <div class="header-inside">
             <button class="nav-button"><img src="Assets/align-justify-svgrepo-com.png" alt="nav"></button>

@@ -1,6 +1,7 @@
 <?php include 'Includes/userHeader.php'; ?>
+<img src="Assets/Landing-Image.png" alt="Landing Page Image" class="landing-image">
 <main>
-    <img src="Assets/placeholder.jpg" alt="Landing Page Image" class="landing-image">
+    
     <div class="category-container">
         <div class="category-box">
             <h1>Parts & Accessories</h1>
