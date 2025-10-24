@@ -4,10 +4,10 @@
         <div class="footer-col">
             <h4>Explore</h4>
             <ul>
-                <li><a href="userLanding.html">Home</a></li>
-                 <li><a href="allproducts.html">All Products</a></li>
-                 <li><a href="userLogin.html">Login</a></li>
-                <li><a href="userRegister.html">Sign Up</a></li>
+                <li><a href="index.php">Home</a></li>
+                 <li><a href="userProducts.php">All Products</a></li>
+                 <li><a href="userLogin.php">Login</a></li>
+                <li><a href="userRegister.php">Sign Up</a></li>
             </ul>
         </div>
         <div class="footer-col">
