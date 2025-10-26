@@ -1,5 +1,5 @@
 <?php
-include 'Includes/admin_auth.php';
+include 'Includes/staff_auth.php';
 include 'Includes/connection.php';
 
 session_start();
