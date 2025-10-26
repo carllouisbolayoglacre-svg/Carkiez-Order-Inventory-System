@@ -16,7 +16,7 @@ handle_logout();
     <div class="header-container">
         <div class="header-inside">
             <button class="nav-button"><img src="Assets/align-justify-svgrepo-com.png" alt="nav"></button>
-            <div class="header-logo"><img src="Assets/TemporaryLogo.png" alt="Logo" class="logo"></div>
+            <div class="header-logo"><a href="index.php"><img src="Assets/TemporaryLogo.png" alt="Logo" class="logo"></a></div>
             <div class="header-search-bar-container">
                 <form method="get" action="userProducts.php" class="product-search-form">
                     <div class="search-bar">
