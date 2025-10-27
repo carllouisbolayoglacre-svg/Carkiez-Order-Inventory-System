@@ -54,7 +54,7 @@ if ($cart) {
                     </div>
                     <div class="radio-group">
                         <input type="radio" id="online-payment" name="payment_method" value="online_payment">
-                        <label for="online-payment">Online Payment</label>
+                        <label for="online-payment">Pay via Gcash</label>
                     </div>
                 </div>
                 <div class="customer-pickup-info">
@@ -66,6 +66,7 @@ if ($cart) {
                 <div class="pickup-info">
                     <h3>Pickup Information</h3>
                     <p><strong>Pickup Location:</strong> Carkiez Store, Purok 3, Poblacion, Kapatagan Highway, Kapatagan, Lanao Del Norte</p>
+                    <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d1975.9717399302717!2d123.77012398018928!3d7.900974031470483!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x32543494c8e5a309%3A0xea1c4ebf451f6fd!2sCARKIEZ%20AUTO%20SUPPLY!5e0!3m2!1sen!2sph!4v1761585936685!5m2!1sen!2sph" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
                     <p><small>*Please pick up your order within 3 days after confirmation.</small></p>
                 </div>
                 <div class="confirm-order">

@@ -10,6 +10,8 @@ handle_logout();
 <title>Carkiez Store</title>
 <link rel="stylesheet" type="text/css" href="Style/UserSide.css">
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 </head>
 <body>
 <header>
