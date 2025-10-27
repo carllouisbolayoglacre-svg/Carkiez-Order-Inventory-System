@@ -62,7 +62,7 @@
         </div>
     </div>
     <div class="divider">
-        <h1>Shop by Brand</h1>
+        <h1>Shop by Brands</h1>
         <div class="category-grid">
             <div class="category-cell">
                 <a href="userProducts.php?brand=2">

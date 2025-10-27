@@ -40,7 +40,6 @@ include 'Includes/adminNav.php';
 <main>
     <div class="admin-products-container">
         <h2>Categories</h2>
-
         <form method="get" action="adminCategories.php" class="filter-controls" style="margin-bottom:1rem;">
             <div class="search-box">
                 <input type="text" name="search" placeholder="Search brands..." value="<?php echo htmlspecialchars($search); ?>">

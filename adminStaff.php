@@ -44,7 +44,7 @@ include "Includes/adminNav.php";
 
 <main>
     <div class="admin-products-container">
-        <h2>All Users</h2>
+        <h2>All Staff</h2>
         <form method="get" action="adminUsers.php" class="filter-controls" style="margin-bottom:1rem;">
             <div class="search-box">
                 <input type="text" name="search" placeholder="Search users..." value="<?php echo htmlspecialchars($search); ?>">
