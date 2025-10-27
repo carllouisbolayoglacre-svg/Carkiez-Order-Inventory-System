@@ -1195,6 +1195,111 @@ footer a {
     border-radius: 6px;
   }
 }
+/* GCash Payment Section Styles */
+.gcash-payment-section {
+  display: none;
+  margin-top: 15px;
+  padding: 20px;
+  background: #f9f9f9;
+  border-radius: 8px;
+  border: 1px solid #ddd;
+}
+
+.gcash-payment-section h3 {
+  margin-top: 0;
+  color: #333;
+  font-size: 1.2rem;
+  margin-bottom: 15px;
+}
+
+.gcash-payment-section img {
+  width: 400px;
+  height: auto;
+  margin-bottom: 15px;
+}
+
+.gcash-instruction {
+  margin: 10px 0;
+  color: #333;
+  font-size: 1rem;
+}
+
+.gcash-number {
+  font-size: 1.1rem;
+  color: #ff1e00;
+  font-weight: bold;
+  margin: 5px 0;
+  padding: 10px;
+  background: white;
+  border-radius: 6px;
+  border-left: 4px solid #ff1e00;
+}
+
+.gcash-note {
+  margin: 10px 0;
+  color: #666;
+  font-size: 0.85rem;
+}
+
+.gcash-form-group {
+  margin-top: 20px;
+}
+
+.gcash-form-group label {
+  display: block;
+  font-weight: 600;
+  margin-bottom: 8px;
+  color: #333;
+  font-size: 0.95rem;
+}
+
+.gcash-form-group input[type="text"],
+.gcash-form-group input[type="file"] {
+  width: 100%;
+  padding: 10px 12px;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  font-size: 1rem;
+  transition: border-color 0.3s;
+  box-sizing: border-box;
+}
+
+.gcash-form-group input[type="text"]:focus {
+  outline: none;
+  border-color: #ff1e00;
+  box-shadow: 0 0 0 3px rgba(255, 30, 0, 0.1);
+}
+
+.gcash-form-group input[type="file"] {
+  padding: 8px;
+  cursor: pointer;
+}
+
+.file-help-text {
+  display: block;
+  color: #666;
+  margin-top: 5px;
+  font-size: 0.85rem;
+}
+
+/* Responsive styles for GCash section */
+@media (max-width: 600px) {
+  .gcash-payment-section {
+    padding: 15px;
+  }
+
+  .gcash-payment-section h3 {
+    font-size: 1.1rem;
+  }
+
+  .gcash-number {
+    font-size: 1rem;
+  }
+
+  .gcash-form-group {
+    margin-top: 15px;
+  }
+}
 /*Quantity Button*/
 .quantity {
   display: inline-flex;
