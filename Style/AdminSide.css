@@ -394,9 +394,6 @@ aside {
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
   background: #fafafa;
 }
-.button-group {
-  justify-content: flex-end;
-}
 .admin-products-container h2 {
   text-align: center;
   margin-bottom: 1.5rem;

@@ -63,6 +63,16 @@ while ($item = $items_result->fetch_assoc()) {
     $order_items[] = $item;
 }
 $items_stmt->close();
+
+$payment = null;
+$pay_stmt = $conn->prepare("SELECT payment_id, payment_method, reference_number, proof_image FROM payments WHERE order_id = ?");
+$pay_stmt->bind_param("i", $order_id);
+$pay_stmt->execute();
+$pay_result = $pay_stmt->get_result();
+if ($pay_result->num_rows > 0) {
+    $payment = $pay_result->fetch_assoc();
+}
+$pay_stmt->close();
 ?>
 
 <?php
@@ -110,7 +120,15 @@ include 'Includes/adminNav.php';
                 </div>
                 <div class="info-row">
                     <span class="label">Payment Method:</span>
-                    <span class="value"><?php echo ucwords(str_replace('_', ' ', $order['payment_method'])); ?></span>
+                    <span class="value">
+                        <?php if ($payment): ?>
+                            <a href="adminPayments.php?search=<?php echo urlencode($payment['reference_number'] ?? $order['order_id']); ?>">
+                                <?php echo ucwords(str_replace('_', ' ', $payment['payment_method'])); ?>
+                            </a>
+                        <?php else: ?>
+                            <?php echo ucwords(str_replace('_', ' ', $order['payment_method'])); ?>
+                        <?php endif; ?>
+                    </span>
                 </div>
                 <div class="info-row">
                     <span class="label">Total Amount:</span>

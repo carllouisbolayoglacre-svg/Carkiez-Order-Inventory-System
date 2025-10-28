@@ -25,6 +25,14 @@
             </div>
         </div>
         <div class="dropdown">
+            <button class="dropbtn">Payments
+                <span class="caret"></span>
+            </button>
+            <div class="dropdown-content">
+                <a href="adminPayments.php">Manage Payments</a>
+            </div>
+        </div>
+        <div class="dropdown">
             <button class="dropbtn">Users 
                 <span class="caret"></span>
             </button>
@@ -41,7 +49,6 @@
                 <a href="adminStaff.php">Manage Staff</a>
             </div>
         </div>
-        <a href="adminSettings.php">Settings</a>
         <form method="post" style="display:inline;">
             <button class="dropbtn" type="submit" name="logout">Logout</button>
         </form>

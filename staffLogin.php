@@ -21,7 +21,7 @@ if($_SERVER['REQUEST_METHOD'] === 'POST'){
     if ($staff && password_verify($password, $staff['password'])) {
         // Valid login → set session
         $_SESSION['staff_logged_in'] = true;  // Set session status for staff
-        $_SESSION['staff_id'] = $staff['id'];
+        $_SESSION['staff_id'] = $staff['staff_id'];
         $_SESSION['staff_username'] = $staff['username'];
 
         header("Location: staffDashboard.php");

@@ -19,7 +19,6 @@
                 <a href="staffOrders.php">View Orders</a>
             </div>
         </div>
-        <a href="staffSettings.php">Settings</a>
         <form method="post" style="display:inline;">
             <button class="dropbtn" type="submit" name="logout">Logout</button>
         </form>
