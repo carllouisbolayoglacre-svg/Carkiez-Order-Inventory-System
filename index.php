@@ -1,5 +1,6 @@
 <?php include 'Includes/userHeader.php'; ?>
 <div class="hero-section">
+    <img src="Assets/mobile-landing-image.png" alt="Landing Page Image" class="mobile-landing-image">
     <img src="Assets/Landing-Image.png" alt="Landing Page Image" class="landing-image">
 </div>
 <main>

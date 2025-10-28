@@ -6,16 +6,16 @@ Check_login();
 
 // Process form on submit
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $firstName   = mysqli_real_escape_string($conn, $_POST['firstname']);
-    $middleName  = mysqli_real_escape_string($conn, $_POST['middlename']);
-    $lastName    = mysqli_real_escape_string($conn, $_POST['lastname']);
-    $birthdate   = mysqli_real_escape_string($conn, $_POST['birthdate']);
-    $email       = mysqli_real_escape_string($conn, $_POST['email']);
-    $username    = mysqli_real_escape_string($conn, $_POST['username']);
-    $password    = mysqli_real_escape_string($conn, $_POST['password']);
-    $confirmPass = mysqli_real_escape_string($conn, $_POST['confirm-password']);
-    $contact_number = mysqli_real_escape_string($conn, $_POST['phone']);
-    $address = mysqli_real_escape_string($conn, $_POST['address']);
+    $firstName   = trim($_POST['firstname']);
+    $middleName  = trim($_POST['middlename']);
+    $lastName    = trim($_POST['lastname']);
+    $birthdate   = trim($_POST['birthdate']);
+    $email       = trim($_POST['email']);
+    $username    = trim($_POST['username']);
+    $password    = $_POST['password'];
+    $confirmPass = $_POST['confirm-password'];
+    $contact_number = trim($_POST['phone']);
+    $address = trim($_POST['address']);
 
     // Validate password match
     if ($password !== $confirmPass) {
@@ -33,26 +33,33 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         exit();
     }
 
-    // Check if username or email already exists
-    $check_query = "SELECT * FROM user WHERE username='$username' OR email='$email'";
-    $check_result = mysqli_query($conn, $check_query);
+    // Check if username or email already exists using prepared statement
+    $check_stmt = $conn->prepare("SELECT user_id FROM user WHERE username = ? OR email = ?");
+    $check_stmt->bind_param("ss", $username, $email);
+    $check_stmt->execute();
+    $check_result = $check_stmt->get_result();
 
-    if (mysqli_num_rows($check_result) > 0) {
+    if ($check_result->num_rows > 0) {
         echo "<script>alert('Username or Email already exists!'); window.location.href='userRegister.php';</script>";
+        $check_stmt->close();
+        exit();
+    }
+    $check_stmt->close();
+
+    // Hash the password
+    $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
+
+    // Insert user with prepared statement
+    $insert_stmt = $conn->prepare("INSERT INTO user (first_name, middle_name, last_name, birthdate, email, username, password, contact_number, address) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)");
+    $insert_stmt->bind_param("sssssssss", $firstName, $middleName, $lastName, $birthdate, $email, $username, $hashedPassword, $contact_number, $address);
+
+    if ($insert_stmt->execute()) {
+        echo "<script>alert('Registered successfully!'); window.location.href='userLogin.php';</script>";
+        $insert_stmt->close();
+        exit();
     } else {
-        // Hash the password
-        $hashedPassword = password_hash($password, PASSWORD_BCRYPT);
-
-        // Insert user
-        $insert_query = "INSERT INTO user (first_name, middle_name, last_name, birthdate, email, username, password, contact_number, address) 
-                         VALUES ('$firstName', '$middleName', '$lastName', '$birthdate', '$email', '$username', '$hashedPassword', '$contact_number', '$address')";
-
-        if (mysqli_query($conn, $insert_query)) {
-            echo "<script>alert('Registered successfully!'); window.location.href='userLogin.php';</script>";
-            exit();
-        } else {
-            echo "Error: " . mysqli_error($conn);
-        }
+        echo "<script>alert('Registration failed. Please try again.'); window.location.href='userRegister.php';</script>";
+        $insert_stmt->close();
     }
 }
 $conn->close();

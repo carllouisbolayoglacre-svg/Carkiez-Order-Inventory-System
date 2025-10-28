@@ -3,7 +3,7 @@
 function check_login_redirect() {
     // Check if admin is logged in; if not, redirect to admin login page.
     if (!isset($_SESSION['user_logged_in']) || $_SESSION['user_logged_in'] !== true) {
-    echo "<script>alert('You are not logged in!'); window.location.href = 'userLogin.php';</script>";
+    echo "<script>alert('You are not logged in!'); window.location.href = '/Carkiez-Order-Inventory-System/userLogin.php';</script>";
     exit();
     }
 }
